@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Form, Popover, Progress, Select, Row, Col } from "antd";
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'redux-react-hook';
 import InputItem from "../../components/InputItem";
 import SubmitButton from "../../components/SubmitButton";
+import { getCaptcha } from '../../actions/register';
 import styles from "./index.module.less";
 
 const { Option } = Select;
@@ -20,6 +22,7 @@ const passwordProgressMap = {
 };
 
 const Register = () => {
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [popover, setPopover] = useState(false);
   const [prefix, setPrefix] = useState("86");
@@ -81,14 +84,32 @@ const Register = () => {
       )
     );
   };
+   
+  const handleClickCaptcha = () => {
+    form.validateFields(['username', 'email', 'password'])
+      .then (() => {
+        dispatch(getCaptcha(form.getFieldsValue(['username', 'email', 'password'])));
+      })
+  }
 
   return (
     <div>
       <div className={styles.registerContainer}>
         <div className={styles.register}>
           <Form form={form} onFinish={handleFinish}>
+          <InputItem
+              name="username"
+              placeholder="用户名"
+              size="large"
+              rules={[
+                {
+                  required: true,
+                  message: "please type your user name!",
+                }
+              ]}
+            />
             <InputItem
-              name="mail"
+              name="email"
               placeholder="邮箱"
               size="large"
               rules={[
@@ -184,6 +205,7 @@ const Register = () => {
                 },
               ]}
               placeholder="验证码"
+              onClick={handleClickCaptcha}
             />
             <Row justify="space-between" align="middle" >
               <Col span={8}>

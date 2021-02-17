@@ -22,7 +22,7 @@ const TagList = ({ tags }) => {
       inputValue && 
       !tags.concat(tempsTags).map(({ label }) => label).includes(inputValue)
     ) {
-      tempsTags = [...tempsTags, { key: 'new-${tempsTags.length}', label: inputValue}];
+      tempsTags = [...tempsTags, { key: `new-${tempsTags.length}`, label: inputValue}];
     }
     setNewTags(tempsTags);
     setInputVisible(false);

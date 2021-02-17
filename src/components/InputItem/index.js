@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'redux-react-hook';
 import { Input, Form, Button, Col, Row, message } from 'antd';
-import { getCaptcha } from '../../actions/register';
 import styles from './index.module.less';
 
 const InputItem = React.forwardRef((props, ref) => {
-  const dispatch = useDispatch();
-  const { name, rules, ...rest } = props;
+  const { name, rules, onClick, ...rest } = props;
   const [timing, setTiming] = useState(false); // Count down or not?
-  const [count, setCount] = useState(props.countDown || 45); // Count down
+  const [count, setCount] = useState(props.countDown || 10); // Count down
   const handleClickCaptcha = () => {
-    message.success("Successfully get the V-code 12345!");
-    dispatch(getCaptcha());
+    onClick();
     setTiming(true);
-  };
+  }
 
   useEffect(() => {
     let interval = 0;
@@ -23,7 +19,7 @@ const InputItem = React.forwardRef((props, ref) => {
           if (preSecond <= 1) {
             setTiming(false); // end of count down
             clearInterval(interval);
-            return props.countDown || 45;
+            return props.countDown || 10;
           }
           return preSecond - 1;
         })
