@@ -1,9 +1,9 @@
-import React from 'react';
-import { Card, List } from 'antd';
-import moment from 'moment';
-import styles from './index.module.less'
+import React from "react";
+import { Card, List } from "antd";
+import moment from "moment";
+import styles from "./index.module.less";
 
-const Projects = ( { list }) => {
+const Projects = ({ list }) => {
   return (
     <List
       rowKey="id"
@@ -11,11 +11,11 @@ const Projects = ( { list }) => {
       dataSource={list}
       renderItem={(item) => (
         <List.Item>
-          <Card
-            hoverable
-            cover={<img alt={item.title} src={item.cover} />}
-          >
-            <Card.Meta title={<a>{item.title}</a>} description={item.subDescription} />
+          <Card hoverable cover={<img alt={item.title} src={item.cover} />}>
+            <Card.Meta
+              title={<a href="/">{item.title}</a>}
+              description={item.subDescription}
+            />
             <div className={styles.moment}>
               <span>{moment(item.updateAt).fromNow()}</span>
             </div>
