@@ -84,12 +84,14 @@ const Register = () => {
       )
     );
   };
-   
+
   const handleClickCaptcha = () => {
-    form.validateFields(['username', 'email', 'password'])
-      .then (() => {
-        dispatch(getCaptcha(form.getFieldsValue(['username', 'email', 'password'])));
-      })
+    Promise.all([
+      form.validateFields(['email', 'username']),
+      checkConfirm('', form.getFieldValue('confirm')),
+    ])
+      .then(() => dispatch(getCaptcha(form.getFieldsValue(['username', 'email', 'password']))))
+      .catch(console.log)
   }
 
   return (
@@ -97,7 +99,7 @@ const Register = () => {
       <div className={styles.registerContainer}>
         <div className={styles.register}>
           <Form form={form} onFinish={handleFinish}>
-          <InputItem
+            <InputItem
               name="username"
               placeholder="用户名"
               size="large"
