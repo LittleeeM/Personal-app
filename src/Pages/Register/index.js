@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Form, Popover, Progress, Select, Row, Col } from "antd";
+import React, { useState } from 'react';
+import { Form, Popover, Progress, Select, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'redux-react-hook';
-import InputItem from "../../components/InputItem";
-import SubmitButton from "../../components/SubmitButton";
-import { getCaptcha } from '../../actions/register';
-import styles from "./index.module.less";
+import InputItem from '../../components/InputItem';
+import SubmitButton from '../../components/SubmitButton';
+import { getCaptcha, register } from '../../actions/account';
+import styles from './index.module.less';
 
 const { Option } = Select;
 
@@ -28,8 +28,12 @@ const Register = () => {
   const [prefix, setPrefix] = useState("86");
   const [form] = Form.useForm();
   const handleFinish = (values) => {
-    console.log(values);
+    dispatch(register(values));
   };
+
+  const Test111 = () => {
+    debugger
+  }
 
   const checkConfirm = (_, value) => {
     const promise = Promise;
@@ -93,12 +97,12 @@ const Register = () => {
       .then(() => dispatch(getCaptcha(form.getFieldsValue(['username', 'email', 'password']))))
       .catch(console.log)
   }
-
+  
   return (
     <div>
       <div className={styles.registerContainer}>
         <div className={styles.register}>
-          <Form form={form} onFinish={handleFinish}>
+          <Form form={form} onFinish={handleFinish} onFinishFailed={Test111}>
             <InputItem
               name="username"
               placeholder="用户名"
