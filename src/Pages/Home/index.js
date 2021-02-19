@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Divider, Avatar } from 'antd';
+import { useDispatch, useMappedState } from 'redux-react-hook';
 import { Link } from 'react-router-dom';
 import { ContactsOutlined, ClusterOutlined, HomeOutlined } from '@ant-design/icons';
 import Articles from './components/Articles/index.js';
@@ -7,11 +8,14 @@ import Projects from './components/Projects/index.js';
 import Applications from './components/Applications/index.js';
 import TagList from './components/TagList/index.js';
 import { currentUser, fakeList } from './data';
+import { getUserProfile } from '../../actions/profile.js';
 import styles from './index.module.less';
 
 const articleList = fakeList(10);
 const applicationList = fakeList(10);
 const projectList = fakeList(10);
+
+const mapState = state => state.profile;
 
 const operationTabList = [
   {
@@ -73,10 +77,15 @@ const renderUserInfo = (currentUser) => {
 };
 
 function Home() {
+  const dispatch = useDispatch();
+  const { user = {}} = useMappedState(mapState);
   const [tabKey, setTabKey] = useState("articles");
   const onTabChange = (key) => {
     setTabKey(key);
   };
+  useEffect(() => {
+    dispatch(getUserProfile());
+  }, [dispatch]);
   return (
     <div className={styles.container}>
       <Row gutter={24}>
@@ -84,7 +93,7 @@ function Home() {
           <Card bordered={false} style={{ marginBottom: 24 }}>
             <div className={styles.avatarHolder}>
               <img alt="" src={currentUser.avatar} />
-              <div className={styles.name}>{currentUser.name}</div>
+              <div className={styles.name}>{user.username}</div>
               <div>{currentUser.signature}</div>
             </div>
             {renderUserInfo(currentUser)}
