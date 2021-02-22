@@ -7,11 +7,11 @@ const responseInterceptors = [
   },
 ];
 
-const requestInterceptors =[
+const requestInterceptors = [
   {
     name: 'addHttpRequestHeader',
     success(config) {
-      config.headers['Authorization'] = `Bearer ${window.localStorage.getItem('personal-app-token')}`; 
+      config.headers['Authorization'] = `Bearer ${window.localStorage.getItem('personal-app-token')}`;
       return config;
     },
     fail(err) {
@@ -23,7 +23,7 @@ const requestInterceptors =[
 
 const interceptors = {
   response: responseInterceptors,
-  response: requestInterceptors,
+  request: requestInterceptors,
 };
 
 function doInstall(instance, options = {}) {
@@ -33,7 +33,7 @@ function doInstall(instance, options = {}) {
       const { success, fail } = interceptor;
       instance.interceptors[type].use(success, fail);
     })
-} 
+}
 
 export function install(instance, options = {}) {
   doInstall(instance, {
