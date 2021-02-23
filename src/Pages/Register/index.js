@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Form, Popover, Progress, Select, Row, Col } from 'antd';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'redux-react-hook';
-import InputItem from '../../components/InputItem';
-import SubmitButton from '../../components/SubmitButton';
-import { getCaptcha, register } from '../../actions/account';
-import styles from './index.module.less';
+import React, { useState } from "react";
+import { Form, Popover, Progress, Select, Row, Col } from "antd";
+import { Link } from "react-router-dom";
+import { useDispatch } from "redux-react-hook";
+import InputItem from "../../components/InputItem";
+import SubmitButton from "../../components/SubmitButton";
+import { getCaptcha, register } from "../../actions/account";
+import styles from "./index.module.less";
 
 const { Option } = Select;
 
@@ -30,10 +30,6 @@ const Register = () => {
   const handleFinish = (values) => {
     dispatch(register(values));
   };
-
-  const Test111 = () => {
-    debugger
-  }
 
   const checkConfirm = (_, value) => {
     const promise = Promise;
@@ -91,18 +87,22 @@ const Register = () => {
 
   const handleClickCaptcha = () => {
     Promise.all([
-      form.validateFields(['email', 'username']),
-      checkConfirm('', form.getFieldValue('confirm')),
+      form.validateFields(["email", "username"]),
+      checkConfirm("", form.getFieldValue("confirm")),
     ])
-      .then(() => dispatch(getCaptcha(form.getFieldsValue(['username', 'email', 'password']))))
-      .catch(console.log)
-  }
-  
+      .then(() =>
+        dispatch(
+          getCaptcha(form.getFieldsValue(["username", "email", "password"]))
+        )
+      )
+      .catch(console.log);
+  };
+
   return (
     <div>
       <div className={styles.registerContainer}>
         <div className={styles.register}>
-          <Form form={form} onFinish={handleFinish} onFinishFailed={Test111}>
+          <Form form={form} onFinish={handleFinish}>
             <InputItem
               name="username"
               placeholder="用户名"
@@ -111,7 +111,7 @@ const Register = () => {
                 {
                   required: true,
                   message: "please type your user name!",
-                }
+                },
               ]}
             />
             <InputItem
@@ -213,14 +213,14 @@ const Register = () => {
               placeholder="验证码"
               onClick={handleClickCaptcha}
             />
-            <Row justify="space-between" align="middle" >
+            <Row justify="space-between" align="middle">
               <Col span={8}>
                 <SubmitButton>注册</SubmitButton>
               </Col>
               <Col span={16}>
                 <Link className={styles.login} to="/login">
                   使用已有账户登录
-                </Link >
+                </Link>
               </Col>
             </Row>
           </Form>
