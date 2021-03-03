@@ -5,7 +5,7 @@ export function getCaptcha(payload = {}) {
   return async () => {
     const { code, message: msg, data: { captcha } = {}} = await api.getCaptcha(payload);
     if (code === 20020) {
-      message.success(`${msg}, 验证码为${captcha}`);
+      message.success(`${msg}`);
     } else {
       message.error(msg);
     }
